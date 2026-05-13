@@ -1,0 +1,227 @@
+/* ============================================
+   Calculator — css/style.css
+   ============================================ */
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-page:     #1a1a2e;
+  --bg-calc:     #16213e;
+  --bg-display:  #0f3460;
+  --bg-key:      #1a1a2e;
+  --bg-key-fn:   #2a2a4a;
+  --bg-key-op:   #e94560;
+  --bg-key-eq:   #e94560;
+  --bg-key-eq-h: #c73652;
+
+  --text-primary:   #eaeaea;
+  --text-secondary: #a0a0c0;
+  --text-op:        #fff;
+  --text-fn:        #eaeaea;
+
+  --border-key:   rgba(255, 255, 255, 0.07);
+  --shadow-calc:  0 32px 80px rgba(0, 0, 0, 0.6);
+  --shadow-key:   0 4px 12px rgba(0, 0, 0, 0.3);
+
+  --radius-calc: 20px;
+  --radius-key:  12px;
+  --radius-disp: 12px;
+
+  --font-display: 'Courier New', Courier, monospace;
+  --font-ui:      system-ui, -apple-system, sans-serif;
+
+  --transition: 0.12s ease;
+}
+
+body {
+  font-family: var(--font-ui);
+  background: var(--bg-page);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+
+  /* subtle grid texture */
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ---------- Calculator Shell ---------- */
+.calc-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calc {
+  background: var(--bg-calc);
+  border-radius: var(--radius-calc);
+  padding: 1.5rem;
+  width: 300px;
+  box-shadow: var(--shadow-calc);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- Display ---------- */
+.display {
+  background: var(--bg-display);
+  border-radius: var(--radius-disp);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.expr {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-height: 18px;
+  word-break: break-all;
+  text-align: right;
+  letter-spacing: 0.5px;
+}
+
+.result {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: bold;
+  color: var(--text-primary);
+  word-break: break-all;
+  text-align: right;
+  line-height: 1.1;
+  letter-spacing: 1px;
+  transition: font-size var(--transition);
+}
+
+.result.shrink  { font-size: 24px; }
+.result.xshrink { font-size: 18px; }
+
+/* ---------- Key Grid ---------- */
+.keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* ---------- Base Key ---------- */
+.key {
+  height: 60px;
+  border: 1px solid var(--border-key);
+  border-radius: var(--radius-key);
+  background: var(--bg-key);
+  color: var(--text-primary);
+  font-size: 18px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: var(--shadow-key);
+  outline: none;
+}
+
+.key:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.key:active,
+.key.pressed {
+  transform: scale(0.92);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.key:focus-visible {
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.5);
+}
+
+/* ---------- Function Keys (AC, +/−, %) ---------- */
+.key.fn {
+  background: var(--bg-key-fn);
+  color: var(--text-fn);
+  font-size: 15px;
+}
+
+.key.fn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ---------- Operator Keys ---------- */
+.key.op {
+  background: var(--bg-key-op);
+  color: var(--text-op);
+  font-size: 20px;
+  font-weight: 500;
+  border-color: transparent;
+}
+
+.key.op:hover {
+  background: #c73652;
+}
+
+.key.op.active-op {
+  background: #fff;
+  color: var(--bg-key-op);
+}
+
+/* ---------- Equals Key ---------- */
+.key.eq {
+  background: var(--bg-key-eq);
+  color: var(--text-op);
+  font-size: 22px;
+  font-weight: 500;
+  border-color: transparent;
+}
+
+.key.eq:hover {
+  background: var(--bg-key-eq-h);
+}
+
+/* ---------- Wide Zero Key ---------- */
+.key.span2 {
+  grid-column: span 2;
+  justify-content: flex-start;
+  padding-left: 22px;
+}
+
+/* ---------- Footer Tip ---------- */
+.key-tip {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+}
+
+.key-tip .icon {
+  opacity: 0.7;
+}
+
+/* ---------- Error State ---------- */
+.result.error {
+  color: #e94560;
+  font-size: 22px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 360px) {
+  .calc { width: 100%; padding: 1rem; }
+  .key  { height: 52px; font-size: 16px; }
+  .result { font-size: 30px; }
+}
